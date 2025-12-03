@@ -4,19 +4,36 @@ const horses = document.querySelectorAll('.horse');
 const finishLinePosition = window.innerWidth - 200;
 const commentatorDiv = document.getElementById('commentator');
 
+const nameInputElements = [];
+for (let i = 0; i < horses.length; i++) {
+    nameInputElements.push(document.getElementById(`nameInput${i}`));
+}
+
 let raceInterval;
-let horseSpurted = Array(horses.length).fill(false); // To track if a horse has spurted
-let currentLeader = -1; // To track the current leading horse for commentary
+let horseSpurted; // Will be initialized in startButton click
+let currentLeader = -1;
 
 function updateCommentary(message) {
     commentatorDiv.textContent = message;
 }
 
 startButton.addEventListener('click', () => {
+    // Hide input fields
+    nameInputElements.forEach(input => input.style.display = 'none');
+
+    // Dynamically get horse names from input fields
+    const horseNames = [];
+    for (let i = 0; i < horses.length; i++) {
+        const inputElement = document.getElementById(`nameInput${i}`);
+        horseNames.push(inputElement.value || `Horse ${i + 1}`); // Use input value or a default
+    }
+
     // Reset horses and winner display
     winnerDisplay.textContent = '';
     horses.forEach(horse => {
         horse.style.left = '0px';
+        // Optionally update the indicator span with the new name
+        horse.querySelector('.indicator').textContent = horseNames[Array.from(horses).indexOf(horse)];
     });
 
     // Reset spurt tracking
@@ -35,6 +52,8 @@ startButton.addEventListener('click', () => {
         if (raceFinished) {
             clearInterval(raceInterval);
             startButton.disabled = false;
+            // Show input fields again
+            nameInputElements.forEach(input => input.style.display = 'inline-block'); // or 'block' depending on desired layout
             return;
         }
 
@@ -48,7 +67,7 @@ startButton.addEventListener('click', () => {
             if (!horseSpurted[index] && horsePositions[index] > finishLinePosition * 0.7 && Math.random() < 0.30) { // 30% chance for a spurt in late game
                 randomStep *= 5; // 5x speed boost
                 horseSpurted[index] = true;
-                updateCommentary(`Horse ${index + 1} bursts ahead with a powerful spurt!`);
+                updateCommentary(`${horseNames[index]} bursts ahead with a powerful spurt!`);
             }
 
             horsePositions[index] += randomStep;
@@ -63,15 +82,15 @@ startButton.addEventListener('click', () => {
             // Check for winner
             if (horsePositions[index] >= finishLinePosition && !raceFinished) {
                 raceFinished = true;
-                winnerDisplay.textContent = `Winner: Horse ${index + 1}!`;
-                updateCommentary(`And the winner is Horse ${index + 1}! What a magnificent race!`);
+                winnerDisplay.textContent = `Winner: ${horseNames[index]}!`;
+                updateCommentary(`And the winner is ${horseNames[index]}! What a magnificent race!`);
             }
         });
 
         // Update commentary for leader changes, but not if the race is already finished
         if (!raceFinished && leaderIndex !== -1 && leaderIndex !== currentLeader) {
             currentLeader = leaderIndex;
-            updateCommentary(`Horse ${currentLeader + 1} takes the lead!`);
+            updateCommentary(`${horseNames[currentLeader]} takes the lead!`);
         }
 
     }, 100);

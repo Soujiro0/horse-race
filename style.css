@@ -23,10 +23,17 @@ body {
 
 #finishLine {
     position: absolute;
-    right: 100px;
+    right: 80px; /* Adjusted slightly to give more room for the width */
     top: 0;
     bottom: 0;
-    border-left: 5px dashed red;
+    width: 20px; /* Make it wider */
+    background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black),
+                      linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);
+    background-size: 20px 20px; /* Size of the checker squares */
+    background-position: 0 0, 10px 10px; /* Offset for checkerboard effect */
+    border: none; /* Remove the old border */
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.3); /* Add some shadow for depth */
+    z-index: 10; /* Ensure it's above horses if needed */
 }
 
 #winner {
@@ -43,42 +50,38 @@ body {
     background-image: url('horse.png');
     background-repeat: no-repeat;
     background-size: 500px 100px;
-    animation: run 1s steps(5, end) infinite;
+    animation: run 400ms steps(5, end) infinite;
     backface-visibility: hidden;
     position: absolute;
     left: 0;
 }
 
-#horse1 {
-    top: 50px;
-}
-
 #horse2 {
-    top: 200px;
+    top: 225px;
 }
 
 #horse3 {
-    top: 350px;
+    top: 300px;
 }
 
 #horse4 {
-    top: 500px;
+    top: 375px;
 }
 
 #horse5 {
-    top: 650px;
+    top: 450px;
 }
 
 #horse6 {
-    top: 800px;
+    top: 525px;
 }
 
 #horse7 {
-    top: 950px;
+    top: 600px;
 }
 
 #horse8 {
-    top: 1100px;
+    top: 675px;
 }
 
 @keyframes run {
