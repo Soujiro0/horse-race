@@ -13,35 +13,39 @@
 
 body {
     background-color: #f0f0f0;
+    margin: 0; /* Remove default body margin */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
-#startButton {
-    font-size: 1.5em;
-    padding: 10px 20px;
-    cursor: pointer;
+.horse-race-game {
+    position: relative;
+    width: 100vw; /* Take full viewport width */
+    height: 750px; /* Adjust height as needed for all horses */
+    overflow-x: hidden; /* Hide scrollbar for the game area, scrolling will be JS controlled */
+}
+
+#track {
+    width: 3000px; /* Make the track much wider than the viewport */
+    position: relative;
+    height: 100%;
+    background-image: url('background.png');
+    background-repeat: repeat-x; /* Repeat horizontally */
+    background-size: auto 100%; /* Cover full height, auto width */
 }
 
 #finishLine {
     position: absolute;
-    right: 80px; /* Adjusted slightly to give more room for the width */
+    right: 80px;
     top: 0;
     bottom: 0;
-    width: 20px; /* Make it wider */
+    width: 20px;
     background-image: linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black),
                       linear-gradient(45deg, black 25%, transparent 25%, transparent 75%, black 75%, black);
-    background-size: 20px 20px; /* Size of the checker squares */
-    background-position: 0 0, 10px 10px; /* Offset for checkerboard effect */
-    border: none; /* Remove the old border */
-    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.3); /* Add some shadow for depth */
-    z-index: 10; /* Ensure it's above horses if needed */
-}
-
-#winner {
-    font-size: 3em;
-    text-align: center;
-    margin-top: 20px;
-    color: green;
-    font-weight: bold;
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    border: none;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 10;
 }
 
 .horse {
@@ -54,6 +58,20 @@ body {
     backface-visibility: hidden;
     position: absolute;
     left: 0;
+    transform: translateX(0); /* Initialize transform */
+}
+
+.horse .indicator {
+    position: absolute;
+    top: -25px; /* Position above the horse */
+    left: 0;
+    white-space: nowrap; /* Prevent text from wrapping */
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    z-index: 11; /* Ensure it's above other elements */
 }
 
 #horse2 {
@@ -61,27 +79,27 @@ body {
 }
 
 #horse3 {
-    top: 300px;
+    top: 275px;
 }
 
 #horse4 {
-    top: 375px;
+    top: 325px;
 }
 
 #horse5 {
-    top: 450px;
+    top: 375px;
 }
 
 #horse6 {
-    top: 525px;
+    top: 425px;
 }
 
 #horse7 {
-    top: 600px;
+    top: 475px;
 }
 
 #horse8 {
-    top: 675px;
+    top: 525px;
 }
 
 @keyframes run {
